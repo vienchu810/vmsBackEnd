@@ -2,6 +2,7 @@ package com.example.vms.app.config;
 
 import com.example.vms.app.security.JwtAuthenticationEntryPoint;
 import com.example.vms.app.security.JwtAuthenticationFilter;
+import com.example.vms.app.service.CustomUserDetailsService;
 import com.example.vms.app.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -17,6 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -75,6 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+
                 .authorizeRequests()
                 .antMatchers("/",
                         "/favicon.ico",
@@ -88,15 +91,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/files/**",
                         "/**/*.mp3",
                         "/websocket/**",
+                        "/public/**",
                         "/ws/**")
                 .permitAll().antMatchers("/api/auth/**")
-                .permitAll().antMatchers("/api/product/**")
+                .permitAll().antMatchers("/api/auth/register/**")
+                .permitAll().antMatchers("/api/auth/login/**")
+                .permitAll().antMatchers("/api/auth/logout/**")
+                .permitAll().antMatchers("/api/auth/addCards/**")
+                .permitAll().antMatchers("/api/getCartItems/{userId}")
+                .permitAll().antMatchers("/api/delCartItems/{idProduct}")
+
+                .permitAll().antMatchers("/api/getProducts/**")
+                .permitAll().antMatchers("/api/getProductByName/{nameProduct}")
+                .permitAll().antMatchers("/api/postProducts/**")
                 .permitAll().antMatchers("/api/getCate/**")
                 .permitAll().antMatchers("/api/addCate")
+                //product
+                .permitAll().antMatchers("/api/getCateProduct/**")
+                .permitAll().antMatchers("/api/addCateProduct")
                 .permitAll().antMatchers("/api/uploadSong")
                 .permitAll().antMatchers("/api/getSong")
                 .permitAll().antMatchers("/api/addSong")
                 .permitAll().antMatchers("/api/download/{fileName:.+}")
+
+
+
+
 
                 .permitAll().anyRequest()
                 .authenticated();
@@ -105,7 +125,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
-
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new CustomUserDetailsService();
+    }
     @Bean
     public SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();

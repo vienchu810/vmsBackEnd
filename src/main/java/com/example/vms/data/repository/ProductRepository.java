@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    @Query("select s from Product s where concat('',s.Detail) like concat('%', :searchKey, '%')")
+  Product findByNameProduct(String nameProduct);
+    @Query("select s from Product s where concat('',s.nameProduct) like concat('%', :searchKey, '%')")
     Iterable<Product> searchProduct(@Param("searchKey") String searchKey);
 }

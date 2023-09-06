@@ -13,4 +13,6 @@ public class UpdateUserDto {
     private String phone;
 
     private String password;
+
+    private String imgImgAvatar;
 }

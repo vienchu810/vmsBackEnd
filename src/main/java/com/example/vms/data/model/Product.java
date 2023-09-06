@@ -6,9 +6,8 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "product")
+@Table(name = "Product")
 @Data
-@EqualsAndHashCode(callSuper=false)
 //@JsonIgnoreProperties({ "student_id" })
 public class Product extends AuditModel {
     @Id
@@ -22,6 +21,8 @@ public class Product extends AuditModel {
 
     private String imgProduct;
     private String Detail;
+
+    private Long idCateProduct;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -43,7 +43,7 @@ public class UserController {
             user.setUsername(request.getUsername());
             user.setEmail(request.getEmail());
             user.setPhone(request.getPhone());
-
+            user.setImgAvatar(request.getImgImgAvatar());
             user = userRepository.save(user);
             return Response.data(user);
         } else {

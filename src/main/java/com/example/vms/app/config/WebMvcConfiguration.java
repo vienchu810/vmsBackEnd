@@ -13,9 +13,10 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedHeaders("*")
+                .allowedOrigins("http://localhost:8080")
                 .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH")
-                .allowedOrigins("*");
+                .allowedHeaders("*");
+
     }
 
     @Override
@@ -24,6 +25,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                 .addResourceHandler("/files/tmp/**")
                 .addResourceLocations("file:///C:/Users/KyThuat88/Desktop/temporary/");
         registry.addResourceHandler("/public/**").addResourceLocations("classpath:/public/");
+
     }
 
     @Override
